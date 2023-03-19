@@ -29,7 +29,7 @@
 Ключевое слово `FROM` сообщает Docker какой базовый образ необходимо использовать при сборке контейнера. Пример:
 
 ```Dockerfile
-FROM debiam:11.0.0
+FROM debian:11.0.0
 ```
 
 В этом примере мы взяли базовый образ `debian` версии `11.0.0`. Если поставить вместо версии значение `latest` или пустое значение:
@@ -63,7 +63,7 @@ RUN pip3 install -r requirements.txt
 ```
 Сама команда `RUN` передает в аргументы то, что можно выполнить в консоли. Например:
 ```Dockerfile
-FROM ubuntu
+FROM debian
 
 # Запуск команды ls для отображения списка файлов в директории
 RUN ls
@@ -102,7 +102,7 @@ RUN apt-get update && apt-get install -y \
 Пример с `COPY`:
 
 ```Dockerfile
-FROM ubuntu
+FROM debian
 
 # Копирование файла requirements.txt в папку /tmp/ внутри образа
 # Файл requirements.txt должен находиться возле файла Dockerfile
@@ -118,7 +118,7 @@ COPY --chown=user:mygroup . /tmp/
 Пример с `ADD`:
 
 ```Dockerfile
-FROM ubuntu
+FROM debian
 
 # Копирование файла requirements.txt в папку /tmp/ внутри образа
 # Файл requirements.txt должен находиться возле файла Dockerfile
@@ -135,7 +135,7 @@ ADD --chown=user:mygroup . /tmp/
 В чем же отличие команды `ADD` от C`OPY`? Команда `ADD` имеет дополнителбный функционал, такой как скачивание файлов по ссылке и разархивация архивов. Пример:
 
 ```Dockerfile
-FROM ubuntu
+FROM debian
 
 # Скачиваем файл в директорию /usr/src/things/
 ADD https://example.com/big.tar.xz /usr/src/things/
@@ -145,7 +145,7 @@ RUN tar -xJf /usr/src/things/big.tar.xz -C /usr/src/things
 
 На самом деле, команду `ADD` практически никогда не используют из-за непрозрачного результата его работы. Вместо дополнительных встроенных команд `ADD` чаще всего используют команду `RUN`. Пример:
 ```Dockerfile
-FROM ubuntu
+FROM debian
 
 # Тоже самое, но с использование команды RUN
 RUN mkdir -p /usr/src/things \
@@ -160,7 +160,7 @@ RUN mkdir -p /usr/src/things \
 
 Команда `WORKDIR` перемещает дальнейшее выполнение команд указанных ниже в каталог. Рассмотрим пример:
 ```Dockerfile
-FROM ubuntu
+FROM debian
 
 WORKDIR /app
 COPY ./ ./
@@ -174,7 +174,7 @@ COPY ./ ./
 Инструкция `ENV` позволяет добавлять переменную среды. Например, в `Dockerfile` имеется повторение одного ресурса несколько раз. Чтобы не писать повторение, можно создать переменную и переиспользовать ее. Пример:
 
 ```Dockerfile
-FROM ubuntu
+FROM debian
 
 ENV APP_DIR=app
 
@@ -207,7 +207,7 @@ docker run <название образа> --env OTHER_APP_ADDR=192.168.1.2:9090
 `ENTRYPOINT` - это точка входа. В каждом контейнера она должна присутствовать. Рассмотрим стандартный контейнер `ubuntu`. В предыдущей лабораторной работе, когда мы хотели зайти в нутрь запущенного контейнера, мы выполняли следующую команду:
 
 ```bash
-docker run -it --rm ubuntu bash
+docker run -it --rm debian bash
 ```
 При запуске контейнера мы передавали команду `bash`, которую хотели запустить. Но, на самом деле, если залезть под капот докера, полная команда будет выглядеть следующим образом:
 
@@ -218,7 +218,7 @@ docker run -it --rm ubuntu bash
 
 Рассмотрим еще пример:
 ```bash
-docker run --rm ubuntu ls /
+docker run --rm debian ls /
 ```
 
 Полная команда будет выглядеть так: `/bin/sh -c ls /`
